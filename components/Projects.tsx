@@ -32,9 +32,7 @@ export default function Projects() {
         }
         subtitle="Una selección de productos en producción donde he liderado arquitectura, desarrollo y despliegue."
         meta={
-          <>
-            {portfolioData.projects.length} casos · ámbito profesional
-          </>
+          <>{portfolioData.projects.length} casos · ámbito profesional</>
         }
       />
 
@@ -49,20 +47,20 @@ export default function Projects() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.5, delay: Math.min(i * 0.08, 0.3) }}
-              className="group relative flex flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-bg3 p-5 transition-all hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_24px_60px_-30px_rgba(123,97,255,0.4)] sm:p-7"
+              className="group relative flex flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-bg3 p-5 transition-all hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_24px_60px_-30px_rgba(123,97,255,0.4)] sm:p-6"
             >
               <div className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full bg-accent/10 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100" />
 
-              <header className="mb-5 flex items-start justify-between gap-4">
+              <header className="mb-4 flex items-start justify-between gap-4">
                 <div className="min-w-0 flex-1">
                   <p className="mb-3 inline-block rounded-full border border-accent2/20 bg-accent2/5 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.2em] text-accent2">
                     {project.company}
                   </p>
-                  <h3 className="text-lg font-bold leading-tight text-text transition-colors group-hover:text-accent sm:text-xl lg:text-2xl">
+                  <h3 className="text-base font-bold leading-tight text-text transition-colors group-hover:text-accent sm:text-lg lg:text-xl">
                     {project.title}
                   </h3>
                 </div>
-                <div className="flex shrink-0 gap-1.5 sm:gap-2">
+                <div className="flex shrink-0 gap-2">
                   <a
                     href={repoOk ? project.repo : undefined}
                     target={repoOk ? "_blank" : undefined}
@@ -102,7 +100,7 @@ export default function Projects() {
                 </div>
               </header>
 
-              <p className="mb-6 flex-1 text-sm leading-relaxed text-muted">
+              <p className="mb-5 flex-1 text-sm leading-relaxed text-muted">
                 {project.desc}
               </p>
 

@@ -8,7 +8,6 @@ interface BadgeProps {
   tone?: BadgeTone;
   icon?: ComponentType<LucideProps>;
   pulse?: boolean;
-  size?: "sm" | "md";
 }
 
 const toneClasses: Record<BadgeTone, string> = {
@@ -17,28 +16,22 @@ const toneClasses: Record<BadgeTone, string> = {
   muted: "border-[var(--border)] bg-bg3 text-muted",
 };
 
-const sizeClasses = {
-  sm: "px-2.5 py-0.5 text-[10px]",
-  md: "px-3 py-1 text-[11px]",
-};
-
 export default function Badge({
   children,
   tone = "accent2",
   icon: Icon,
   pulse = false,
-  size = "md",
 }: BadgeProps) {
   const dotColor =
     tone === "accent"
       ? "bg-accent"
       : tone === "accent2"
-      ? "bg-accent2"
-      : "bg-muted";
+        ? "bg-accent2"
+        : "bg-muted";
 
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded-full border font-mono uppercase tracking-[0.25em] ${toneClasses[tone]} ${sizeClasses[size]}`}
+      className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 font-mono text-xs uppercase tracking-[0.2em] ${toneClasses[tone]}`}
     >
       {pulse ? (
         <span className="relative flex h-1.5 w-1.5">

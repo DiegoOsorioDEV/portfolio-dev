@@ -21,38 +21,35 @@ export default function SectionHeader({
   meta,
   align = "left",
 }: SectionHeaderProps) {
-  const alignClass = align === "center" ? "text-center mx-auto" : "";
+  const alignClasses =
+    align === "center" ? "mx-auto text-center items-center" : "items-start";
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.5 }}
-      className={`mb-10 flex flex-col gap-4 sm:mb-14 ${
+      className={`mb-10 flex flex-col gap-3 sm:mb-12 lg:mb-14 ${
         meta ? "sm:flex-row sm:items-end sm:justify-between sm:gap-8" : ""
       }`}
     >
-      <div className={`max-w-2xl ${alignClass}`}>
-        <div
-          className={`mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-bg2 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-accent2 sm:text-[11px] ${
-            align === "center" ? "mx-auto" : ""
-          }`}
-        >
+      <div className={`flex max-w-2xl flex-col ${alignClasses}`}>
+        <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-bg2 px-3 py-1 font-mono text-xs uppercase tracking-[0.25em] text-accent2">
           {Icon ? <Icon size={12} aria-hidden /> : null}
           {eyebrow}
-        </div>
-        <h2 className="section-title text-balance text-text">{title}</h2>
+        </span>
+        <h2 className="text-balance text-3xl font-bold leading-tight tracking-tight text-text sm:text-4xl lg:text-5xl">
+          {title}
+        </h2>
         {subtitle ? (
-          <p className="section-subtitle text-pretty mt-4 text-muted">
+          <p className="text-pretty mt-4 text-base leading-relaxed text-muted sm:text-lg">
             {subtitle}
           </p>
         ) : null}
       </div>
       {meta ? (
-        <div className="shrink-0 font-mono text-[11px] text-muted sm:text-xs">
-          {meta}
-        </div>
+        <div className="shrink-0 font-mono text-xs text-muted">{meta}</div>
       ) : null}
     </motion.div>
   );

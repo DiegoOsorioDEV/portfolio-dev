@@ -26,9 +26,9 @@ export default function Section({
     <section
       id={id}
       aria-label={ariaLabel}
-      className={`container-px section-py relative overflow-hidden ${bgByVariant[variant]} ${className}`}
+      className={`section-y relative overflow-hidden ${bgByVariant[variant]} ${className}`}
     >
-      <div className="relative mx-auto w-full max-w-6xl">{children}</div>
+      <div className={`container-x relative`}>{children}</div>
     </section>
   );
 }

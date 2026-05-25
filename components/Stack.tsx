@@ -48,19 +48,19 @@ export default function Stack() {
             />
             <div className="flex items-center justify-between gap-3">
               <div className="flex min-w-0 items-center gap-2.5">
-                <div
+                <span
                   className="h-2.5 w-2.5 shrink-0 rounded-full"
                   style={{
                     backgroundColor: tech.color,
                     boxShadow: `0 0 12px ${tech.color}`,
                   }}
                 />
-                <p className="truncate font-mono text-xs font-semibold text-text sm:text-sm">
+                <p className="truncate font-mono text-sm font-semibold text-text">
                   {tech.name}
                 </p>
               </div>
               <span
-                className={`shrink-0 rounded-full border px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider ${
+                className={`shrink-0 rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider ${
                   levelStyles[tech.level] ?? levelStyles.Intermedio
                 }`}
               >

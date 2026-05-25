@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Terminal } from "lucide-react";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 
 const navLinks = [
   { label: "Inicio", href: "#inicio", id: "inicio" },
@@ -16,18 +16,28 @@ function Logo() {
   return (
     <a
       href="#inicio"
-      className="group flex shrink-0 items-center gap-2.5 font-mono text-sm font-semibold"
+      aria-label="Inicio · Diego Osorio"
+      className="group flex shrink-0 items-center gap-3"
     >
-      <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-accent/30 bg-accent/10 text-accent transition-colors group-hover:bg-accent group-hover:text-bg">
-        <Terminal size={14} />
-      </span>
-      <span className="flex items-baseline">
-        <span className="text-text">diego</span>
-        <span className="text-accent2">/</span>
-        <span className="text-muted transition-colors group-hover:text-text">
-          dev
+      <span className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg border border-[var(--border)] bg-gradient-to-br from-bg2 to-bg3 transition-all group-hover:border-accent/40">
+        <span
+          className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          style={{
+            background:
+              "linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%)",
+          }}
+          aria-hidden
+        />
+        <span className="relative font-mono text-[11px] font-bold tracking-[0.1em] text-text transition-colors group-hover:text-bg">
+          DO
         </span>
       </span>
+      <div className="hidden flex-col leading-none sm:flex">
+        <span className="text-sm font-semibold text-text">Diego Osorio</span>
+        <span className="mt-1 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
+          Software · DevOps
+        </span>
+      </div>
     </a>
   );
 }
@@ -43,18 +53,18 @@ function DesktopNavLink({ label, href, active }: NavLinkProps) {
   return (
     <a
       href={href}
-      className={`relative rounded-full px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.2em] transition-colors xl:px-4 xl:text-xs ${
+      className={`relative inline-flex items-center py-1 text-sm font-medium transition-colors duration-200 ${
         active ? "text-text" : "text-muted hover:text-text"
       }`}
     >
+      {label}
       {active ? (
         <motion.span
           layoutId="nav-active"
-          className="absolute inset-0 -z-10 rounded-full border border-[var(--border)] bg-bg3"
+          className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-accent to-accent2"
           transition={{ type: "spring", stiffness: 380, damping: 30 }}
         />
       ) : null}
-      {label}
     </a>
   );
 }
@@ -64,12 +74,33 @@ function MobileNavLink({ label, href, active, onClick }: NavLinkProps) {
     <a
       href={href}
       onClick={onClick}
-      className={`flex items-center justify-between rounded-lg px-3 py-3 font-mono text-sm uppercase tracking-[0.2em] transition-colors ${
-        active ? "bg-bg3 text-text" : "text-muted hover:bg-bg3 hover:text-text"
+      className={`flex items-center justify-between rounded-lg px-3 py-3.5 text-sm font-medium transition-colors ${
+        active
+          ? "bg-bg3 text-text"
+          : "text-muted hover:bg-bg3 hover:text-text"
       }`}
     >
       <span>{label}</span>
-      {active ? <span className="h-1.5 w-1.5 rounded-full bg-accent2" /> : null}
+      {active ? (
+        <span className="h-[2px] w-6 rounded-full bg-gradient-to-r from-accent to-accent2" />
+      ) : null}
+    </a>
+  );
+}
+
+function CTAButton() {
+  return (
+    <a
+      href="/cv.pdf"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group inline-flex items-center gap-1.5 rounded-md border border-[var(--border)] bg-bg2 px-3.5 py-1.5 text-sm font-medium text-text transition-all hover:border-accent/40 hover:bg-bg3"
+    >
+      CV
+      <ArrowUpRight
+        size={14}
+        className="text-muted transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent2"
+      />
     </a>
   );
 }
@@ -79,8 +110,15 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [active, setActive] = useState<string>("inicio");
 
+  const { scrollYProgress } = useScroll();
+  const progressX = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 24,
+    restDelta: 0.001,
+  });
+
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 32);
+    const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -121,48 +159,48 @@ export default function Navbar() {
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled || mobileOpen
-          ? "border-b border-[var(--border)] bg-bg/85 backdrop-blur-xl"
-          : "bg-bg/30 backdrop-blur-sm"
+          ? "border-b border-[var(--border)] bg-bg/90 backdrop-blur-xl"
+          : "border-b border-transparent bg-bg/40 backdrop-blur-md"
       }`}
     >
       <nav
-        className="container-px mx-auto flex max-w-6xl items-center justify-between"
+        className="container-x flex items-center justify-between"
         style={{ height: "var(--nav-height)" }}
       >
         <Logo />
 
-        <ul className="hidden items-center gap-0.5 lg:flex">
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <DesktopNavLink
-                label={link.label}
-                href={link.href}
-                active={active === link.id}
-              />
-            </li>
-          ))}
-          <li className="ml-2">
-            <a
-              href="/cv.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-full border border-accent/40 bg-accent/10 px-4 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-accent transition-all hover:bg-accent hover:text-bg hover:shadow-[0_0_20px_rgba(123,97,255,0.35)] xl:text-xs"
-            >
-              CV
-            </a>
-          </li>
-        </ul>
+        <div className="hidden items-center gap-8 lg:flex">
+          <ul className="flex items-center gap-7 xl:gap-8">
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <DesktopNavLink
+                  label={link.label}
+                  href={link.href}
+                  active={active === link.id}
+                />
+              </li>
+            ))}
+          </ul>
+          <span className="h-5 w-px bg-[var(--border)]" aria-hidden />
+          <CTAButton />
+        </div>
 
         <button
           type="button"
-          className="rounded-md border border-[var(--border)] bg-bg2 p-2 text-text transition-colors hover:border-accent/40 lg:hidden"
+          className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--border)] bg-bg2 text-text transition-all hover:border-accent/40 hover:bg-bg3 lg:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
           aria-expanded={mobileOpen}
         >
-          {mobileOpen ? <X size={18} /> : <Menu size={18} />}
+          {mobileOpen ? <X size={16} /> : <Menu size={16} />}
         </button>
       </nav>
+
+      {/* Scroll progress bar */}
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 h-px origin-left bg-gradient-to-r from-accent to-accent2"
+        style={{ scaleX: progressX }}
+      />
 
       <AnimatePresence>
         {mobileOpen ? (
@@ -173,7 +211,7 @@ export default function Navbar() {
             transition={{ duration: 0.25 }}
             className="overflow-hidden border-t border-[var(--border)] lg:hidden"
           >
-            <ul className="container-px flex flex-col gap-1 py-4">
+            <ul className="container-x flex flex-col gap-1 py-4">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <MobileNavLink
@@ -184,15 +222,19 @@ export default function Navbar() {
                   />
                 </li>
               ))}
-              <li className="mt-2">
+              <li className="mt-3 border-t border-[var(--border)] pt-3">
                 <a
                   href="/cv.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setMobileOpen(false)}
-                  className="block rounded-lg border border-accent/40 bg-accent/10 px-4 py-3 text-center font-mono text-xs font-semibold uppercase tracking-[0.2em] text-accent"
+                  className="group flex items-center justify-between rounded-lg border border-[var(--border)] bg-bg2 px-4 py-3.5 text-sm font-medium text-text transition-all hover:border-accent/40 hover:bg-bg3"
                 >
-                  Descargar CV
+                  <span>Descargar CV</span>
+                  <ArrowUpRight
+                    size={14}
+                    className="text-muted transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent2"
+                  />
                 </a>
               </li>
             </ul>

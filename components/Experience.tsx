@@ -65,7 +65,7 @@ function TimelineItem({ job, index }: TimelineItemProps) {
       </div>
       <div className="flex-1 rounded-xl border border-[var(--border)] bg-bg2 p-5 transition-all hover:-translate-y-0.5 hover:border-accent/30 sm:p-6">
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-          <span className="inline-flex items-center gap-2 font-mono text-[11px] text-accent2 sm:text-xs">
+          <span className="inline-flex items-center gap-2 font-mono text-xs text-accent2">
             {current ? (
               <span className="relative flex h-1.5 w-1.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent2 opacity-75" />
@@ -103,7 +103,7 @@ export default function Experience() {
 
       <div className="relative">
         <div className="absolute left-[7px] top-2 bottom-2 hidden w-px bg-gradient-to-b from-accent via-accent2 to-transparent sm:block" />
-        <div className="space-y-4 sm:space-y-6">
+        <div className="space-y-4 sm:space-y-5">
           {experience.map((job, i) => (
             <TimelineItem
               key={`${job.company}-${job.period}`}
@@ -119,15 +119,15 @@ export default function Experience() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-40px" }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="mt-8 overflow-hidden rounded-2xl border border-accent2/20 bg-gradient-to-br from-bg3 to-bg2 p-5 sm:mt-10 sm:p-7"
+        className="mt-8 overflow-hidden rounded-2xl border border-accent2/20 bg-gradient-to-br from-bg3 to-bg2 p-5 sm:p-6"
       >
         <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
           <div className="flex items-start gap-4">
             <div className="shrink-0 rounded-xl border border-accent2/30 bg-accent2/10 p-3 text-accent2">
-              <GraduationCap size={22} />
+              <GraduationCap size={20} />
             </div>
             <div className="min-w-0">
-              <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.25em] text-accent2 sm:text-[11px]">
+              <p className="mb-1 font-mono text-xs uppercase tracking-[0.25em] text-accent2">
                 Educación
               </p>
               <h3 className="text-base font-bold text-text sm:text-lg">
@@ -136,7 +136,7 @@ export default function Experience() {
               <p className="mt-1 text-sm text-accent">{education.school}</p>
             </div>
           </div>
-          <p className="shrink-0 self-start rounded-full border border-[var(--border)] bg-bg px-4 py-1.5 font-mono text-[11px] text-muted sm:self-center sm:text-xs">
+          <p className="shrink-0 self-start rounded-full border border-[var(--border)] bg-bg px-4 py-1.5 font-mono text-xs text-muted sm:self-center">
             {education.period}
           </p>
         </div>

@@ -9,7 +9,7 @@ interface SocialLinksProps {
 
 const sizeMap = {
   sm: { padding: "p-2", icon: 14 },
-  md: { padding: "p-3", icon: 16 },
+  md: { padding: "p-2.5 sm:p-3", icon: 16 },
 };
 
 export default function SocialLinks({
