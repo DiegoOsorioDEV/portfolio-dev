@@ -1,167 +1,161 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { ArrowRight, Download, Mail, MapPin } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, ArrowUpRight, Mail, MapPin } from "lucide-react";
+import { GithubIcon, LinkedinIcon } from "@/components/Icons";
 import { portfolioData } from "@/data/portfolio";
-import Badge from "./ui/Badge";
-import Button from "./ui/Button";
-import SocialLinks from "./ui/SocialLinks";
-import StatItem from "./ui/StatItem";
 
-const { profile, socials } = portfolioData;
+const { profile, socials, location } = portfolioData;
 
 const stats = [
-  { value: profile.yearsExp, label: "Años exp." },
+  { value: profile.yearsExp, label: "Años de exp." },
   { value: profile.projectsCount, label: "Proyectos" },
-  { value: profile.commitsCount, label: "Commits" },
 ];
-
-const HERO_NAME = "Diego Osorio";
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" as const } },
-};
 
 export default function Hero() {
   return (
     <section
       id="inicio"
-      className="container-px relative flex min-h-[100svh] flex-col justify-center overflow-hidden pt-32 pb-16 sm:pt-36"
+      className="container-x flex min-h-[calc(100svh-var(--nav-height))] flex-col justify-center pb-12 pt-[calc(var(--nav-height)+1.5rem)] sm:pb-16 sm:pt-[calc(var(--nav-height)+2rem)] lg:pb-20"
     >
-      {/* Background grid */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.4]"
-        style={{
-          backgroundImage: `
-            linear-gradient(var(--border) 1px, transparent 1px),
-            linear-gradient(90deg, var(--border) 1px, transparent 1px)
-          `,
-          backgroundSize: "clamp(48px, 5vw, 80px) clamp(48px, 5vw, 80px)",
-          maskImage:
-            "radial-gradient(ellipse 75% 65% at 35% 45%, black 0%, transparent 75%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 75% 65% at 35% 45%, black 0%, transparent 75%)",
-        }}
-      />
+      {/* Primera vista: foto + identidad + resumen */}
+      <div className="flex flex-col items-center gap-8 md:flex-row md:items-center md:gap-10 lg:gap-14">
+        <div className="relative shrink-0">
+          <div
+            className="pointer-events-none absolute -inset-3 rounded-3xl opacity-50 blur-2xl sm:-inset-4"
+            style={{
+              background:
+                "linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%)",
+            }}
+            aria-hidden
+          />
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-bg2 p-1.5 shadow-[0_24px_60px_-20px_rgba(123,97,255,0.35)]">
+            <div className="relative aspect-[4/5] w-44 overflow-hidden rounded-xl sm:w-52 md:w-48 lg:w-56 xl:w-64">
+              <Image
+                src={profile.image}
+                alt={profile.imageAlt}
+                fill
+                priority
+                sizes="(max-width: 768px) 208px, (max-width: 1280px) 224px, 256px"
+                className="object-cover object-top"
+              />
+            </div>
+          </div>
+          <div className="absolute -bottom-3 left-1/2 max-w-[calc(100%+1rem)] -translate-x-1/2 truncate rounded-full border border-border bg-bg2/95 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-muted backdrop-blur-md sm:text-[11px] sm:tracking-[0.15em]">
+            {profile.tagline}
+          </div>
+        </div>
 
-      {/* Glow orbs */}
-      <div className="pointer-events-none absolute -top-1/4 -left-[10%] h-[55vmax] w-[55vmax] rounded-full bg-accent/20 blur-[140px]" />
-      <div className="pointer-events-none absolute -bottom-1/4 right-[5%] h-[45vmax] w-[45vmax] rounded-full bg-accent2/12 blur-[120px]" />
+        <div className="min-w-0 flex-1 text-center md:text-left">
+          <p className="mb-3 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-accent2 sm:text-xs">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent2 opacity-75" />
+              <span className="relative inline-flex h-full w-full rounded-full bg-accent2" />
+            </span>
+            Disponible para colaborar
+          </p>
 
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="show"
-        className="relative z-10 mx-auto w-full max-w-5xl"
-      >
-        {/* Status row */}
-        <motion.div
-          variants={itemVariants}
-          className="mb-8 flex flex-wrap items-center gap-3"
-        >
-          <Badge tone="accent2" pulse>
-            Disponible
-          </Badge>
-          <span className="hidden h-3 w-px bg-[var(--border)] sm:block" />
-          <span className="hidden items-center gap-1.5 font-mono text-[11px] text-muted sm:inline-flex">
-            <MapPin size={11} className="text-muted" aria-hidden />
-            Toluca, México
-          </span>
-          <span className="hidden h-3 w-px bg-[var(--border)] sm:block" />
-          <span className="hidden font-mono text-[11px] text-muted sm:inline">
-            <span className="text-accent2">$</span> currently @ Databits
-          </span>
-        </motion.div>
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted sm:text-xs">
+            <span className="text-accent2">{"// "}</span>
+            Hola, soy
+          </p>
 
-        {/* Intro line */}
-        <motion.p
-          variants={itemVariants}
-          className="hero-eyebrow mb-4 font-mono text-muted"
-        >
-          <span className="text-accent2">{"// "}</span>
-          Hola, soy
-        </motion.p>
+          <h1 className="text-balance mt-1 text-3xl font-bold tracking-tight text-text sm:text-4xl lg:text-5xl">
+            {profile.shortName}
+          </h1>
 
-        {/* Name — clean, no broken decorations */}
-        <motion.h1
-          variants={itemVariants}
-          className="hero-name text-balance mb-6 text-text"
-        >
-          {HERO_NAME}
-        </motion.h1>
+          <p className="mt-2 text-base font-medium text-muted sm:text-lg">
+            {profile.title}
+          </p>
 
-        {/* Role / pitch */}
-        <motion.h2
-          variants={itemVariants}
-          className="hero-title text-balance mb-8 max-w-3xl text-muted"
-        >
-          Construyo{" "}
-          <span className="font-semibold text-text">
-            arquitecturas cloud
-          </span>{" "}
-          escalables y{" "}
-          <span className="gradient-text font-semibold">
-            aplicaciones full-stack
-          </span>{" "}
-          con visión DevOps.
-        </motion.h2>
+          <p className="text-pretty mx-auto mt-4 max-w-xl text-sm leading-relaxed text-muted sm:text-base md:mx-0">
+            {profile.bio}
+          </p>
 
-        {/* Description */}
-        <motion.p
-          variants={itemVariants}
-          className="hero-desc text-pretty mb-10 max-w-2xl text-muted"
-        >
-          {profile.description}
-        </motion.p>
+          <div className="mt-5 flex flex-col items-center gap-4 sm:flex-row sm:flex-wrap sm:justify-center md:justify-start">
+            <p className="flex items-center gap-2 text-sm text-muted">
+              <MapPin size={14} className="shrink-0 text-accent2" aria-hidden />
+              {location}
+            </p>
+            <span className="hidden h-4 w-px bg-border sm:block" aria-hidden />
+            <div className="flex flex-wrap items-center justify-center gap-2 md:justify-start">
+              <a
+                href={socials.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-1.5 rounded-full border border-border bg-bg2 px-3.5 py-1.5 text-sm font-medium text-muted transition-colors hover:border-accent/40 hover:text-text"
+              >
+                <GithubIcon
+                  size={15}
+                  className="shrink-0 transition-colors group-hover:text-accent2"
+                />
+                GitHub
+                <ArrowUpRight
+                  size={11}
+                  className="opacity-0 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-70"
+                  aria-hidden
+                />
+              </a>
+              <a
+                href={socials.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-1.5 rounded-full border border-border bg-bg2 px-3.5 py-1.5 text-sm font-medium text-muted transition-colors hover:border-accent2/50 hover:text-accent2"
+              >
+                <LinkedinIcon
+                  size={15}
+                  className="shrink-0 transition-colors group-hover:text-accent2"
+                />
+                LinkedIn
+                <ArrowUpRight
+                  size={11}
+                  className="opacity-0 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-70"
+                  aria-hidden
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        {/* CTAs */}
-        <motion.div
-          variants={itemVariants}
-          className="mb-12 flex flex-wrap items-center gap-3"
-        >
-          <Button href="#proyectos" variant="primary">
-            Ver mi trabajo
-            <ArrowRight
-              size={16}
-              className="transition-transform group-hover:translate-x-0.5"
-            />
-          </Button>
-          <Button href={`mailto:${socials.email}`} variant="secondary">
+      {/* Acciones y métricas — debajo del pliegue visual en móvil, mismo bloque en desktop */}
+      <div className="mt-8 border-t border-border pt-8 lg:mt-10">
+        <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
+          <a
+            href="#contacto"
+            className="inline-flex items-center gap-2 rounded-full bg-text px-5 py-2.5 text-sm font-semibold text-bg transition-all hover:bg-accent hover:shadow-[0_0_30px_rgba(123,97,255,0.4)] sm:px-6 sm:py-3"
+          >
+            Contáctame
+            <ArrowRight size={16} />
+          </a>
+          <a
+            href={`mailto:${socials.email}`}
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-bg2 px-5 py-2.5 text-sm font-medium text-text transition-colors hover:border-accent2/50 hover:text-accent2 sm:px-6 sm:py-3"
+          >
             <Mail size={16} />
-            Hablemos
-          </Button>
-          <Button
+            Email
+          </a>
+          <a
             href="/cv.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            variant="ghost"
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-bg2 px-5 py-2.5 text-sm font-medium text-muted transition-colors hover:border-accent/50 hover:text-text sm:px-6 sm:py-3"
           >
-            <Download size={16} />
             CV
-          </Button>
-          <span className="ml-1 hidden h-8 w-px bg-[var(--border)] sm:block" />
-          <SocialLinks size="md" />
-        </motion.div>
+          </a>
+        </div>
 
-        {/* Stats */}
-        <motion.div
-          variants={itemVariants}
-          className="grid grid-cols-3 gap-6 border-t border-[var(--border)] pt-8 sm:max-w-2xl sm:gap-10 lg:gap-12"
-        >
+        <div className="mt-8 grid max-w-xs grid-cols-2 gap-6 mx-auto md:mx-0 md:max-w-sm">
           {stats.map((stat) => (
-            <StatItem key={stat.label} {...stat} />
+            <div key={stat.label} className="text-center md:text-left">
+              <p className="font-mono text-2xl font-bold text-text sm:text-3xl">
+                {stat.value}
+              </p>
+              <p className="mt-1 font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                {stat.label}
+              </p>
+            </div>
           ))}
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 }

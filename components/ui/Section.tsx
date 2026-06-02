@@ -1,34 +1,35 @@
+"use client";
+
+import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
 
-type SectionVariant = "default" | "alt";
-
-interface SectionProps {
-  id?: string;
-  variant?: SectionVariant;
+type SectionProps = {
+  id: string;
   children: ReactNode;
   className?: string;
-  ariaLabel?: string;
-}
-
-const bgByVariant: Record<SectionVariant, string> = {
-  default: "bg-bg",
-  alt: "bg-bg2",
+  variant?: "default" | "muted";
 };
 
 export default function Section({
   id,
-  variant = "default",
   children,
   className = "",
-  ariaLabel,
+  variant = "default",
 }: SectionProps) {
+  const reduceMotion = useReducedMotion();
+
   return (
-    <section
+    <motion.section
       id={id}
-      aria-label={ariaLabel}
-      className={`container-px section-py relative overflow-hidden ${bgByVariant[variant]} ${className}`}
+      className={`py-16 sm:py-20 ${
+        variant === "muted" ? "border-y border-border bg-bg2/50" : ""
+      } ${className}`}
+      initial={reduceMotion ? false : { opacity: 0, y: 32 }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.12, margin: "0px 0px -8% 0px" }}
+      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="relative mx-auto w-full max-w-6xl">{children}</div>
-    </section>
+      <div className="container-x">{children}</div>
+    </motion.section>
   );
 }
