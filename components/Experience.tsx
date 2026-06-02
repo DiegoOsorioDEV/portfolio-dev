@@ -1,146 +1,77 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { Briefcase, GraduationCap } from "lucide-react";
 import { portfolioData } from "@/data/portfolio";
-import Section from "./ui/Section";
-import SectionHeader from "./ui/SectionHeader";
+import Section from "@/components/ui/Section";
+import SectionHeader from "@/components/ui/SectionHeader";
 
 const { experience, education } = portfolioData;
 
-function isCurrent(period: string) {
-  const now = new Date();
-  const months: Record<string, number> = {
-    enero: 0,
-    febrero: 1,
-    marzo: 2,
-    abril: 3,
-    mayo: 4,
-    junio: 5,
-    julio: 6,
-    agosto: 7,
-    septiembre: 8,
-    octubre: 9,
-    noviembre: 10,
-    diciembre: 11,
-  };
-  const end = period.split("-").pop()?.trim().toLowerCase();
-  if (!end) return false;
-  const match = end.match(/([a-záéíóú]+)\s+(\d{4})/i);
-  if (!match) return false;
-  const monthIdx = months[match[1].toLowerCase()];
-  const year = Number(match[2]);
-  if (monthIdx === undefined || Number.isNaN(year)) return false;
-  const endDate = new Date(year, monthIdx + 1, 0);
-  return endDate >= now;
-}
-
-interface TimelineItemProps {
-  job: (typeof experience)[number];
-  index: number;
-}
-
-function TimelineItem({ job, index }: TimelineItemProps) {
-  const current = isCurrent(job.period);
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: -16 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.5, delay: Math.min(index * 0.08, 0.3) }}
-      className="relative flex gap-6 sm:pl-10"
-    >
-      <div className="absolute left-0 top-5 hidden sm:block">
-        <span
-          className={`relative block h-4 w-4 rounded-full border-2 ${
-            current
-              ? "border-accent2 bg-accent2/30 shadow-[0_0_12px_rgba(0,229,195,0.7)]"
-              : "border-accent bg-bg"
-          }`}
-        >
-          {current ? (
-            <span className="absolute inset-0 animate-ping rounded-full bg-accent2/50" />
-          ) : null}
-        </span>
-      </div>
-      <div className="flex-1 rounded-xl border border-[var(--border)] bg-bg2 p-5 transition-all hover:-translate-y-0.5 hover:border-accent/30 sm:p-6">
-        <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-          <span className="inline-flex items-center gap-2 font-mono text-xs text-accent2">
-            {current ? (
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent2 opacity-75" />
-                <span className="relative inline-flex h-full w-full rounded-full bg-accent2" />
-              </span>
-            ) : null}
-            {job.period}
-          </span>
-          <span className="rounded-full border border-accent/30 bg-accent/10 px-3 py-0.5 font-mono text-[10px] uppercase tracking-[0.2em] text-accent">
-            {job.company}
-          </span>
-        </div>
-        <h3 className="mb-2 text-base font-bold text-text sm:text-lg">
-          {job.role}
-        </h3>
-        <p className="text-sm leading-relaxed text-muted">{job.desc}</p>
-      </div>
-    </motion.div>
-  );
-}
-
 export default function Experience() {
   return (
-    <Section id="experiencia">
+    <Section id="experiencia" variant="muted">
       <SectionHeader
-        eyebrow="Trayectoria"
-        eyebrowIcon={Briefcase}
-        title={
-          <>
-            Experiencia & <span className="gradient-text">educación</span>
-          </>
-        }
-        subtitle="Historial profesional construyendo software empresarial, cloud y aplicaciones móviles."
+        eyebrow="experiencia"
+        title="Trayectoria profesional"
+        description="Experiencia en SaaS, DevOps, cloud y desarrollo full stack en entornos empresariales y académicos."
       />
 
-      <div className="relative">
-        <div className="absolute left-[7px] top-2 bottom-2 hidden w-px bg-gradient-to-b from-accent via-accent2 to-transparent sm:block" />
-        <div className="space-y-4 sm:space-y-5">
-          {experience.map((job, i) => (
-            <TimelineItem
-              key={`${job.company}-${job.period}`}
-              job={job}
-              index={i}
-            />
-          ))}
+      <ol className="relative space-y-0">
+        {experience.map((job, index) => (
+          <li key={`${job.company}-${job.period}`} className="relative pl-8 sm:pl-10">
+            {index < experience.length - 1 ? (
+              <span
+                className="absolute left-[11px] top-8 bottom-0 w-px bg-border sm:left-[15px]"
+                aria-hidden
+              />
+            ) : null}
+            <span
+              className="absolute left-0 top-1.5 flex h-6 w-6 items-center justify-center rounded-full border border-accent/40 bg-bg2 sm:left-1 sm:h-7 sm:w-7"
+              aria-hidden
+            >
+              <span className="h-2 w-2 rounded-full bg-accent2" />
+            </span>
+
+            <article className="pb-10 last:pb-0">
+              <time className="font-mono text-xs uppercase tracking-[0.15em] text-accent2">
+                {job.period}
+              </time>
+              <h3 className="mt-2 text-lg font-semibold text-text">{job.role}</h3>
+              <p className="mt-1 flex items-center gap-2 text-sm font-medium text-muted">
+                <Briefcase size={14} className="shrink-0 text-accent" aria-hidden />
+                {job.company}
+              </p>
+              <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted">
+                {job.desc}
+              </p>
+            </article>
+          </li>
+        ))}
+      </ol>
+
+      <div className="mt-12 rounded-2xl border border-border bg-bg2 p-6 sm:p-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-border bg-bg3 text-accent2">
+            <GraduationCap size={22} aria-hidden />
+          </span>
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+              Formación académica
+            </p>
+            <h3 className="mt-2 text-lg font-semibold text-text">
+              {education.degree}
+            </h3>
+            <p className="mt-1 text-sm text-muted">{education.school}</p>
+            <p className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-xs text-accent2">
+              <span>{education.period}</span>
+              <span className="hidden text-border sm:inline" aria-hidden>
+                ·
+              </span>
+              <span className="rounded-full border border-accent2/30 bg-accent2/10 px-2.5 py-0.5 text-accent2">
+                {education.status}
+              </span>
+            </p>
+          </div>
         </div>
       </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-40px" }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="mt-8 overflow-hidden rounded-2xl border border-accent2/20 bg-gradient-to-br from-bg3 to-bg2 p-5 sm:p-6"
-      >
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
-          <div className="flex items-start gap-4">
-            <div className="shrink-0 rounded-xl border border-accent2/30 bg-accent2/10 p-3 text-accent2">
-              <GraduationCap size={20} />
-            </div>
-            <div className="min-w-0">
-              <p className="mb-1 font-mono text-xs uppercase tracking-[0.25em] text-accent2">
-                Educación
-              </p>
-              <h3 className="text-base font-bold text-text sm:text-lg">
-                {education.degree}
-              </h3>
-              <p className="mt-1 text-sm text-accent">{education.school}</p>
-            </div>
-          </div>
-          <p className="shrink-0 self-start rounded-full border border-[var(--border)] bg-bg px-4 py-1.5 font-mono text-xs text-muted sm:self-center">
-            {education.period}
-          </p>
-        </div>
-      </motion.div>
     </Section>
   );
 }
