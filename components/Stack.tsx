@@ -1,9 +1,16 @@
-import { Brain, Cloud, Code2, Shield, type LucideIcon } from "lucide-react";
+import {
+  Brain,
+  Cloud,
+  Code2,
+  Shield,
+  Smartphone,
+  type LucideIcon,
+} from "lucide-react";
 import { portfolioData } from "@/data/portfolio";
 import Section from "@/components/ui/Section";
 import SectionHeader from "@/components/ui/SectionHeader";
 
-const { stack } = portfolioData;
+const { stack, stackSection } = portfolioData;
 
 const categoryMeta: Record<
   string,
@@ -80,8 +87,15 @@ export default function Stack() {
       <SectionHeader
         eyebrow="stack"
         title="Tecnologías y herramientas"
-        description="Stack orientado a desarrollo full stack, cloud serverless, DevOps e integración de IA en productos SaaS."
+        description={stackSection.description}
       />
+
+      <p className="-mt-4 mb-8 flex items-start gap-3 rounded-xl border border-accent2/20 bg-accent2/5 px-4 py-3.5 text-sm leading-relaxed text-muted sm:items-center sm:px-5">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-accent2/25 bg-bg2 text-accent2">
+          <Smartphone size={18} aria-hidden />
+        </span>
+        <span>{stackSection.highlight}</span>
+      </p>
 
       <div className="grid gap-5 sm:grid-cols-2">
         {Object.entries(grouped).map(([category, items]) => {

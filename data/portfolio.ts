@@ -23,6 +23,12 @@ export const portfolioData = {
     { name: "Español", level: "Nativo" },
     { name: "Inglés", level: "B1 (Intermedio)" },
   ],
+  stackSection: {
+    description:
+      "Stack orientado a desarrollo full stack, cloud serverless, DevOps e integración de IA en productos SaaS.",
+    highlight:
+      "He publicado aplicaciones móviles en Google Play Store con React Native y Expo.",
+  },
   stack: [
     {
       name: "Java (Spring Boot)",
@@ -42,6 +48,11 @@ export const portfolioData = {
     {
       name: "React Native / Expo",
       color: "#61DAFB",
+      category: "Lenguajes y Frameworks",
+    },
+    {
+      name: "Google Play Store · Publicación de apps",
+      color: "#34A853",
       category: "Lenguajes y Frameworks",
     },
     {
